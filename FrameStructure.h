@@ -1,3 +1,6 @@
+#ifndef HEADER_FRAMESTRUCTURE
+#define HEADER_FRAMESTRUCTURE
+#include <Arduino.h>
 typedef struct 
 {
     uint8_t Length;
@@ -25,3 +28,4 @@ typedef struct
     uint16_t SetCurrent;
 }ST_GW_SET_CURRENT;
 
+#endif

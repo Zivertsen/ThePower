@@ -2,14 +2,24 @@
 #define HEADER_GUI
 
 #include <Arduino.h>
+#include <MCUFRIEND_kbv.h>
+
+#define BLACK   0x0000
+#define BLUE    0x001F
+#define RED     0xF800
+#define GREEN   0x07E0
+#define CYAN    0x07FF
+#define MAGENTA 0xF81F
+#define YELLOW  0xFFE0
+#define WHITE   0xFFFF
+#define GRAY    0x18C3 
+
+
 
 //Pin touchscreen 
 // const int XP=6,XM=A2,YP=A1,YM=7; //ID=0x9341
 // TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 // TSPoint tp;
-
-
-// MCUFRIEND_kbv tft;
 
 enum actionButtonState{
     Enable = 1,

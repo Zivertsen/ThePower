@@ -10,8 +10,7 @@
 #define ESC_END         0xDC    /* ESC ESC_END means END data byte */
 #define ESC_ESC         0xDD
 
-
-int readSerial(int *read);
+int readSerial(int *readS);
 
 //Removes the END and ESC characters from the packet
 int unslipPacket(int *packet, int *frame);

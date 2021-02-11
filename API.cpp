@@ -1,11 +1,11 @@
 #include "API.h"
 
-int readSerial(int *read)
+int readSerial(int *readS)
 {
     int index= 0;
     while (Serial.available())
     {
-        read[index] = Serial.read();
+        readS[index] = Serial.read();
         index++;
     }
     
@@ -137,4 +137,3 @@ boolean funcCall(void* pFrame)
         break;
     }
 }
-
