@@ -3,12 +3,14 @@
 
 MCUFRIEND_kbv tft;
 
-  void mainLayout(){
+void screenClear(int x, int y);
 
-     tft.begin(tft.readID());
-     tft.setRotation(1);
-     tft.fillScreen(0xFFFF);
-     tft.setTextColor(BLACK);
+void mainLayout(){
+
+    tft.begin(tft.readID());
+    tft.setRotation(1);
+    tft.fillScreen(0xFFFF);
+    tft.setTextColor(BLACK);
 
     tft.drawLine(240,0,240,320, BLACK);
 
@@ -40,13 +42,13 @@ MCUFRIEND_kbv tft;
     tft.println("00.0");
 
     tft.setCursor(170,140);
-    tft.println("C");
+    tft.println("A");
 
     tft.setCursor(50,210);
     tft.println("00.0");
 
     tft.setCursor(170,210);
-    tft.println("SC");
+    tft.println("A");
 
     //channel 2
         tft.setTextSize(1);
@@ -70,13 +72,13 @@ MCUFRIEND_kbv tft;
     tft.println("00.0");
 
     tft.setCursor(410,140);
-    tft.println("C");
+    tft.println("A");
 
     tft.setCursor(290,210);
     tft.println("00.0");
 
     tft.setCursor(410,210);
-    tft.println("SC");
+    tft.println("A");
 
 }
 
@@ -99,11 +101,13 @@ void actionButton(int x, uint16_t color){
 void updateVoltage(int ch, int data){
     if(ch == 1)
     {
+        screenClear(50, 70);
         tft.setTextSize(4);
         tft.setCursor(50,70);
         tft.println(data);
     }else if(ch == 2)
     {
+        screenClear(290, 70);
         tft.setTextSize(4);
         tft.setCursor(290,70);
         tft.println(data);
@@ -113,11 +117,13 @@ void updateVoltage(int ch, int data){
 void updateCurrent(int ch, int data){
     if(ch == 1)
     {
+        screenClear(50, 140);
         tft.setTextSize(4);
         tft.setCursor(50,140);
         tft.println(data);
     }else if(ch == 2)
     {
+        screenClear(290, 140);
         tft.setTextSize(4);
         tft.setCursor(290,140);
         tft.println(data);
@@ -127,14 +133,21 @@ void updateCurrent(int ch, int data){
 void updateSetCurrent(int ch, int data){
     if(ch == 1)
     {
+        screenClear(50, 210);
         tft.setTextSize(4);
         tft.setCursor(50,210);
         tft.println(data);
     }else if(ch == 2)
     {
+        screenClear(290, 210);
         tft.setTextSize(4);
         tft.setCursor(290,210);
         tft.println(data);
         
     }
+}
+
+void screenClear(int x, int y)
+{
+    tft.fillRect(x,y,90,28, WHITE);
 }

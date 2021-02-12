@@ -4,6 +4,10 @@
 #include "API.h"
 #include "GUI.h"
 
+int pReadSerial[4];
+
+int readIndex = 0;
+
 
 void setup()
 {   
@@ -12,7 +16,6 @@ void setup()
 
     Serial.begin(9600);
     Serial.println("Start up");
-
 
     mainLayout();
 
@@ -24,15 +27,23 @@ void setup()
 
 void loop()
 {
-
     // tp = ts.getPoint();
 
     // pinMode(XM, OUTPUT);
     // pinMode(YP, OUTPUT);
 
-    int read = Serial.read();
-    if(read != -1) Serial.println(read);
-
+        
+    if(readSerial(pReadSerial, &readIndex))
+    {
+        Serial.println("Print Serial");
+        for (int i = 0; i <= readIndex; i++)
+        {
+            Serial.print(pReadSerial[i]);
+        }
+        memset(pReadSerial, 0, sizeof(pReadSerial));
+        Serial.println("");
+        readIndex = 0;
+    }
 
     // if(tp.x > 197 && tp.x < 540 && tp.y > 220 && tp.y < 310)
     // {
