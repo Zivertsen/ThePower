@@ -1,14 +1,44 @@
 #include "API.h"
 
-int readSerial(int *readS)
+boolean readSerial(int *readS, int *pMaxRead)
 {
-    int index= 0;
+    int16_t readData = 0;
+    static int8_t readIndex;
+
     while (Serial.available())
     {
-        readS[index] = Serial.read();
-        index++;
+        readData = Serial.read();   
+        
+        if(readData == 16 || readIndex > 0)
+        {
+            
+            readS[readIndex] = readData;
+            
+            // Serial.println(readS[readIndex]);
+
+            if (readData == 16 && readIndex > 0)
+            {
+                Serial.println("Serial done");
+                *pMaxRead = readIndex;
+                readIndex = 0;
+                return true;
+            }
+            readIndex++;
+        }
     }
-    
+    *pMaxRead = 0;
+    return false;
+}
+
+void writeSerial(int *writeS, int len)
+{
+    int index = 0;
+    Serial.write(writeS[index]);
+    while (len--)
+    {
+        index++;
+        Serial.write(writeS[index]);
+    }
 }
 
 int unslipPacket(int *packet, int *frame)
@@ -111,29 +141,32 @@ boolean funcCall(void* pFrame)
     uint8_t cmdReceived = 0;
     uint8_t channel = 0;
     int16_t data = 0;
-    cmdReceived = (uint8_t) ((ST_GW_SET_CURRENT*) pFrame)->FrameHeader.Command;
+    cmdReceived = (uint8_t) ((ST_GW_NO_DATA*) pFrame)->FrameHeader.Command;
 
 
     switch (cmdReceived)
     {
     case 0x01:
-        channel = (uint8_t) ((ST_GW_VOLTAGE*) pFrame)->FrameHeader.Channel;
-        data = (uint16_t) ((ST_GW_VOLTAGE*)pFrame)->Voltage;
+        ST_GW_VOLTAGE *voltageFrame;
+        voltageFrame = ((ST_GW_VOLTAGE*) pFrame);
 
-        Serial.println(data);
-        // updateVoltage(channel, data);
+        Serial.println(voltageFrame->Voltage);
+        updateVoltage(voltageFrame->FrameHeader.Channel, voltageFrame->Voltage);
         break;
     case 0x02:
-
+        ST_GW_CURRENT *currentFrame;
+        currentFrame = ((ST_GW_CURRENT*) pFrame);
+        updateCurrent(currentFrame->FrameHeader.Channel, currentFrame->Current);
         break;    
     case 0x03:
-
+        ST_GW_SET_CURRENT *currentSetFrame;
+        currentSetFrame = ((ST_GW_SET_CURRENT*) pFrame);
+        updateSetCurrent(currentFrame->FrameHeader.Channel, currentFrame->Current);
         break;
-    case 0x04:
 
-        break;
     default:
-
+        return false;
         break;
     }
+    return true;
 }
