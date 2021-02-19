@@ -1,8 +1,7 @@
-// #include <string.h>
 #include <Arduino.h>
 
-#include "API.h"
-#include "GUI.h"
+#include "src/API/API.h"
+#include "src/GUI/GUI.h"
 
 int pReadSerial[4];
 
