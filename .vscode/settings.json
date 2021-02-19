@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "arduino.h": "c",
-        "api.h": "c",
-        "framestructure.h": "c",
-        "MCUFRIEND_kbv.h": "c",
-        "ada_gfx_kbv.h": "c"
-    }
-}
