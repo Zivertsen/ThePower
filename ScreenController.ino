@@ -32,17 +32,7 @@ void loop()
     // pinMode(YP, OUTPUT);
 
         
-    if(readSerial(pReadSerial, &readIndex))
-    {
-        Serial.println("Print Serial");
-        for (int i = 0; i <= readIndex; i++)
-        {
-            Serial.print(pReadSerial[i]);
-        }
-        memset(pReadSerial, 0, sizeof(pReadSerial));
-        Serial.println("");
-        readIndex = 0;
-    }
+    getFrame(pReadSerial);
 
     // if(tp.x > 197 && tp.x < 540 && tp.y > 220 && tp.y < 310)
     // {
