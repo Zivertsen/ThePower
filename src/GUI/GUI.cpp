@@ -1,9 +1,67 @@
 #include "GUI.h"
 
-
 MCUFRIEND_kbv tft;
 
+enum actionbuttonstate{
+    Enable = 1,
+    Disable = 0
+};
+
+actionbuttonstate ch1State = Disable;
+actionbuttonstate ch2State = Disable;
+
+// Pin touchscreen 
+
+TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+TSPoint tp;
+
+//--------------------- Function declaration -------------
+
 void screenClear(int x, int y);
+
+// ------------------ Function bodies ------------------------
+
+void readTouch()
+{
+       tp = ts.getPoint();
+    if(tp.y > 220 && tp.y < 310)
+    {
+        if(tp.x > 197 && tp.x < 540)
+        {
+            if(ch1State == Enable){
+                ch1State = Disable;
+                Serial.println(ch1State);
+                actionButton(0, GREEN);
+            }
+            else
+            {
+                ch1State = Enable;
+                Serial.println(ch1State);
+                actionButton(0, RED);
+            }
+        }
+      
+
+        // if(tp.x > 700 && tp.x < 950)
+        // {
+        //     if(ch2State == Enable){
+        //         ch2State = Disable;
+        //         Serial.println(ch2State);
+        //         actionButton(SCREENSIZEX/2, GREEN);
+        //     }
+        //     else
+        //     {
+        //         ch2State = Enable;
+        //         Serial.println(ch2State);
+        //         actionButton(SCREENSIZEX/2, RED);
+        //     }
+        // }
+
+    }
+
+}
+
+    
 
 void mainLayout(){
 
@@ -83,6 +141,7 @@ void mainLayout(){
 }
 
 void actionButton(int x, uint16_t color){
+
     tft.fillRect(x+10,250,220,60,color);
 
     tft.setTextSize(4);

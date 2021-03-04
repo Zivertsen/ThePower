@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 #include <MCUFRIEND_kbv.h>
+#include <TouchScreen.h>
+
 
 #define BLACK   0x0000
 #define BLUE    0x001F
@@ -12,19 +14,16 @@
 #define MAGENTA 0xF81F
 #define YELLOW  0xFFE0
 #define WHITE   0xFFFF
-#define GRAY    0x18C3 
+#define GRAY    0x18C3
+
+#define SCREENSIZEX 480 
+#define SCREENSIZEY 320
+
+const int XP=6,XM=A2,YP=A1,YM=7; //ID=0x9341
 
 
 
-//Pin touchscreen 
-// const int XP=6,XM=A2,YP=A1,YM=7; //ID=0x9341
-// TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
-// TSPoint tp;
 
-enum actionButtonState{
-    Enable = 1,
-    Disable = 0,
-};
 
 
 //Draw the main layout 
@@ -38,5 +37,12 @@ void updateVoltage(int ch, int data);
 void updateCurrent(int ch, int data);
 
 void updateSetCurrent(int ch, int data);
+
+void readTouch();
+
+void channelOneButton();
+
+void channelTwoButton();
+
 
 #endif
