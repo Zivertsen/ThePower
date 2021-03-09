@@ -19,12 +19,6 @@
 #define SCREENSIZEX 480 
 #define SCREENSIZEY 320
 
-const int XP=6,XM=A2,YP=A1,YM=7; //ID=0x9341
-
-
-
-
-
 
 //Draw the main layout 
 void mainLayout();

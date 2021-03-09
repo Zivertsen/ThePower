@@ -1,4 +1,5 @@
 #include "GUI.h"
+#include "../API/API.h"
 
 MCUFRIEND_kbv tft;
 
@@ -11,7 +12,7 @@ actionbuttonstate ch1State = Disable;
 actionbuttonstate ch2State = Disable;
 
 // Pin touchscreen 
-
+const int XP=6,XM=A2,YP=A1,YM=7; //ID=0x9341
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 TSPoint tp;
 
@@ -23,7 +24,10 @@ void screenClear(int x, int y);
 
 void readTouch()
 {
-       tp = ts.getPoint();
+    tp = ts.getPoint();
+       
+    pinMode(XM, OUTPUT);
+    pinMode(YP, OUTPUT);
     if(tp.y > 220 && tp.y < 310)
     {
         if(tp.x > 197 && tp.x < 540)
@@ -41,22 +45,21 @@ void readTouch()
             }
         }
       
-
-        // if(tp.x > 700 && tp.x < 950)
-        // {
-        //     if(ch2State == Enable){
-        //         ch2State = Disable;
-        //         Serial.println(ch2State);
-        //         actionButton(SCREENSIZEX/2, GREEN);
-        //     }
-        //     else
-        //     {
-        //         ch2State = Enable;
-        //         Serial.println(ch2State);
-        //         actionButton(SCREENSIZEX/2, RED);
-        //     }
-        // }
-
+        if(tp.x > 570 && tp.x < 930)
+        {
+            if(ch2State == Enable){
+                ch2State = Disable;
+                Serial.println(ch2State);
+                actionButton(SCREENSIZEX/2, GREEN);
+            }
+            else
+            {
+                ch2State = Enable;
+                Serial.println(ch2State);
+                actionButton(SCREENSIZEX/2, RED);
+            }
+        }
+    delay(500);
     }
 
 }
@@ -141,7 +144,9 @@ void mainLayout(){
 }
 
 void actionButton(int x, uint16_t color){
-
+    uint8_t pFrame[3];
+    uint8_t data = 0;
+    uint8_t channel = 0;
     tft.fillRect(x+10,250,220,60,color);
 
     tft.setTextSize(4);
@@ -149,12 +154,25 @@ void actionButton(int x, uint16_t color){
     {
         tft.setCursor(x+90,265);
         tft.println("OFF");
+        data = 0;
     }
     else
     {
         tft.setCursor(x+100,265);
         tft.println("ON");
+        data = 1;
     }
+
+    if (x > 0 )
+    {
+        channel = 0x02;
+    }
+    else
+    {
+        channel = 0x01;
+    }
+
+    buildandSendFrame(0x04,channel, data);
 }
 
 void updateVoltage(int ch, int data){

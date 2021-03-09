@@ -5,9 +5,9 @@
 #include "src/API/API.h"
 #include "src/GUI/GUI.h"
 
-int pReadSerial[4];
+int i = 52177;
 
-int readIndex = 0;
+uint8_t pReadSerial[30];
 
 void setup()
 {   
@@ -21,17 +21,14 @@ void setup()
     mainLayout();
 
     actionButton(0, RED);
-    // actionButton(SCREENSIZEX/2, RED);
+    actionButton(SCREENSIZEX/2, RED);
 
-    // funcCall(frame);
     
 }
 
 void loop()
 {
-    readTouch();
-    delay(500);
-  
+    readTouch();    
 }
 
 
